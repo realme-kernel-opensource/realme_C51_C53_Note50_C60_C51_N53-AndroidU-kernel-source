@@ -1,0 +1,35 @@
+config SPRD_HANG_DEBUG
+	bool "Enable SPRD hang debug feature"
+	default n
+	help
+	  This option enables SPRD hang debug feature which dump and
+	  print debug info when kernel panics.
+
+config SPRD_HANG_WDF
+	tristate "Enable SPRD hang debug wdf feature"
+	depends on SPRD_HANG_DEBUG
+	default m
+	help
+	  This option enables SPRD hang debug wdf feature.
+
+config SPRD_HANG_WDH
+	bool "Enable SPRD hang debug wdh feature"
+	depends on SPRD_HANG_DEBUG
+	default y
+	help
+	  This option enables SPRD hang debug wdh feature.
+
+config SPRD_HANG_DEBUG_UART
+	bool "sprd hang debug using uart for log output"
+	depends on SPRD_HANG_DEBUG && SERIAL_SPRD_CONSOLE
+	default y
+
+config SPRD_HANG_RESET
+	bool "trigger cm4 handling ap watchdog reset"
+	depends on SPRD_HANG_DEBUG
+	default y
+
+config SPRD_HANG_TRIGGER
+	bool "supply a driver for trigger AP cpu hang"
+	depends on SPRD_HANG_DEBUG
+	default y

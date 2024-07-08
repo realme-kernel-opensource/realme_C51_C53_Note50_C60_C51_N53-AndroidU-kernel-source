@@ -1,0 +1,161 @@
+/*
+ * R61350 Truly LCD config dtsi file for spreadtrum
+ *
+ * Copyright (C) 2018, Spreadtrum Communications Inc.
+ *
+ * SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ */
+
+/ {
+	fragment {
+		target-path = "/";
+		__overlay__ {
+			lcds {
+				lcd_icnl9916c_ld_hjc_mipi_hd: lcd_icnl9916c_ld_hjc_mipi_hd {
+
+					sprd,dsi-work-mode = <1>; /* video burst mode*/
+					sprd,dsi-lane-number = <4>;
+					sprd,dsi-color-format = "rgb888";
+
+					sprd,phy-bit-clock = <1008000>;	/* kbps */
+					sprd,phy-escape-clock = <20000>;/* kHz */
+					sprd,dpi-clk-div = <6>;
+					sprd,video-lp-cmd-enable = <1>;
+					sprd,hporch-lp-disable = <1>;
+
+					sprd,width-mm = <0x47>;
+					sprd,height-mm = <0x9C>;
+
+					sprd,esd-check-enable = <1>;
+					sprd,esd-check-mode = <1>;
+					sprd,esd-check-period = <2000>;
+					//sprd,esd-check-register = <0x0A>;
+					//sprd,esd-check-value = <0x9C>;
+
+					sprd,power-i2c-bus = <4>;
+					sprd,power-i2c-addr = <0x3e>;
+					sprd,power-i2c-reg = [00 01 03];
+					sprd,power-i2c-val = [0F 0F 43];
+
+					sprd,reset-on-sequence = <1 15>, <0 5>, <1 30>;
+					sprd,reset-off-sequence = <1 5>;
+					/*
+					 * Use 4 bits number for descripting video lp mode, and it can be combined used.
+					 * BIT(0): allow vactive enter lp;
+					 * BIT(1): allow vfp enter lp;
+					 * BIT(2): allow vbp enter lp;
+					 * BIT(3): allow vsa enter lp;
+					 * For example:
+					 * If we need vfp & vbp enter lp, we can calculate this value as a result of BIT(1) | BIT(2)
+					 * And we get the result of 3 and set this value to lcd dt property sprd,video-lp-en-mode.
+					 * If we need all stage can enter lp, we can calculate this value as a result of BIT(0) | BIT(1) | BIT(2) | BIT(3).
+					 * And we get the result of 15 and set this value to lcd dt property sprd,video-lp-en-mode.
+					 */
+					sprd,video-lp-en-mode = <2>;
+					sprd,use-dcs-write;
+					sprd,initial-command = [
+						39 00 00 04 F0 99 16 0C
+						39 00 00 15 C1 00 F8 20 44 04 B0 48 04 40 06 22 70 35 30 07 11 84 4C 00 93
+						39 00 00 07 C3 06 00 FF 00 FF 5C
+						39 00 00 0D C4 04 31 B8 40 00 BC 00 00 00 00 00 F0
+						39 00 00 18 C5 03 21 96 C8 3E 00 04 01 14 04 19 0B C6 03 64 FF 01 04 18 22 45 14 38
+						39 00 00 0E C6 89 24 17 2B 2B 28 3F 03 16 A5 00 00 00
+						39 00 00 1E B2 03 02 97 98 99 99 8B 01 49 78 7E 78 7E 78 7E 78 7E 78 7E 78 7E 00 00 00 55 55 00 00 00
+						39 00 00 1A B3 F3 01 02 09 81 78 12 03 73 08 80 00 73 78 73 F3 01 01 01 01 00 00 00 00 00
+						39 00 00 21 B5 00 04 06 00 00 00 00 00 00 C1 00 2A 1A 18 16 14 12 10 0E 0C 0A 28 60 FF FC 00 00 00 00 00 00 00
+						39 00 00 21 B6 00 05 07 00 00 00 00 00 00 C1 00 2B 1B 19 17 15 13 11 0F 0D 0B 29 60 FF FC 00 00 00 00 00 00 00
+						39 00 00 17 B7 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A
+						39 00 00 14 BC 00 00 00 00 04 00 FF F0 0B 13 5C 5B 33 33 00 64 3C 5E 36
+						39 00 00 0A BF 0C 19 0C 19 00 11 04 18 50
+						39 00 00 15 C0 40 93 FF FF FF 3F FF 00 FF 00 CC B1 23 45 67 89 AD FF FF F0
+						39 00 00 21 C7 76 54 32 22 34 56 77 77 30 76 54 32 22 34 56 77 77 30 31 00 01 FF FF 40 6E 6E 40 00 00 00 00 00
+						39 00 00 21 80 FF F8 EE E6 E0 DA D6 D2 CE C2 B9 B2 AB A5 9F 94 8B 81 77 76 6D 63 59 4E 40 31 27 1A 17 12 0E 0C
+						39 00 00 21 81 FF F8 EE E6 E0 DA D6 D2 CE C2 B9 B2 AB A5 9F 94 8B 81 77 76 6D 63 59 4E 40 31 27 1A 17 12 0E 0C
+						39 00 00 21 82 FF F8 EE E6 E0 DA D6 D2 CE C2 B9 B2 AB A5 9F 94 8B 81 77 76 6D 63 59 4E 40 31 27 1A 17 12 0E 0C
+						39 00 00 1A 83 01 08 05 00 00 08 05 00 00 08 05 00 00 0A 06 02 00 0A 06 02 00 0A 06 02 00
+						39 00 00 1C 84 16 75 BF C3 07 78 3F 2C CC 16 75 BF C3 07 78 3F 2C CC 16 75 BF C3 07 78 3F 2C CC
+						15 00 00 02 C2 00
+						39 00 00 1F CA 25 40 00 19 46 94 41 8F 44 44 68 68 40 40 6E 6E 40 40 33 00 01 01 0F 0B 02 02 05 00 00 04
+						39 00 00 21 E0 0C 00 B0 10 00 07 B7 29 00 21 02 00 00 00 00 24 12 08 11 48 47 00 00 FF 00 00 00 00 00 00 00 00
+						39 00 00 05 BD A1 0A 52 A6
+						39 00 00 03 35 00 00
+						39 00 00 03 51 00 00
+						39 00 00 03 53 24 00
+						39 00 00 03 55 00 00
+						39 78 00 03 11 00 00
+						39 14 00 03 29 00 00
+						39 02 00 03 6D 02 00
+						39 02 00 05 BD A1 0A 52 AE
+						39 05 00 04 F0 00 00 00
+						];
+
+					sprd,sleep-in-command = [
+						39 00 00 03 6D 25 00
+						39 14 00 03 28 00 00
+						39 78 00 03 10 00 00
+						];
+
+					sprd,sleep-out-command = [
+						05 14 00 01 11
+						05 78 00 01 29
+						];
+
+					sprd,cabc-off-command = [
+						39 00 00 03 55 00 00
+						];
+					sprd,cabc-ui-command = [
+						39 00 00 04 F0 99 16 0C
+						39 00 00 03 55 01 00
+						39 00 00 20 E1 0F 1F 2F 3F 4F 5F 6F 7F 90 A0 B0 C0 D0 E0 EA F6 F6 F6 F6 F6 F2 F7 F7 F5 F6 F6 F3 F4 F6 F6 FF
+						39 00 00 21 E2 32 F8 39 6B 39 6B 39 6B 3B 80 3B 80 39 6B 39 6F 39 6B 39 6B 39 6B 38 51 39 6B 39 6B 39 6B 3E 70
+						39 00 00 04 F0 00 00 00
+						];
+					sprd,cabc-still-command = [
+						39 00 00 04 F0 99 16 0C
+						39 00 00 03 55 02 00
+						39 00 00 20 E1 0F 1F 2F 3F 4F 5F 6F 7F 90 A0 B0 C0 D0 E0 F2 D0 D0 D0 DD E1 E0 E1 E1 E0 E0 E1 E3 E3 E3 E3 E3
+						39 00 00 21 E2 26 F8 2D 00 2D 00 2D 00 2E 80 2D 00 2D 00 2D 00 2D 00 2D 00 2D 00 31 00 2E 90 32 00 36 00 39 70
+						39 00 00 04 F0 00 00 00
+						];
+					sprd,cabc-moving-command = [
+						39 00 00 03 55 00 00
+						];
+
+					display-timings {
+						native-mode = <&icnl9916c_ld_hjc_timing0>;
+
+						icnl9916c_ld_hjc_timing0: timing0 {
+							clock-frequency = <168000000>;
+							hactive = <720>;
+							vactive = <1600>;
+							hback-porch = <176>;
+							hfront-porch = <72>;
+							vback-porch = <248>;
+							vfront-porch = <1020>;
+							hsync-len = <4>;
+							vsync-len = <4>;
+						};
+						icnl9916c_ld_hjc_timing1: timing1 {
+							clock-frequency = <168000000>;
+							hactive = <720>;
+							vactive = <1600>;
+							hback-porch = <176>;
+							hfront-porch = <72>;
+							vback-porch = <248>;
+							vfront-porch = <68>;
+							hsync-len = <4>;
+							vsync-len = <4>;
+						};
+					};
+					oled-backlight {
+						default-brightness = <1306>;
+						sprd,max-level = <4095>;
+						brightness-levels = [
+							39 00 00 03 51 00 00
+						];
+					};
+				};
+			};
+		};
+	};
+};

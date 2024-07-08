@@ -1,0 +1,40 @@
+#
+# snd-soc-sprd-vbc-r1p0v3.ko
+#
+# Kbuild: for kernel building external module
+#
+# Note:
+# - Please use these predefined name for keeping code:
+#   KO_MODULE_NAME KO_MODULE_PATH KO_MODULE_SRC
+#
+
+#
+# Source List
+#
+KO_MODULE_NAME := snd-soc-sprd-vbc-r1p0v3
+KO_MODULE_PATH := $(src)
+KO_MODULE_SRC  :=
+
+ccflags-y += -I$(KO_MODULE_PATH)
+ccflags-y += -I$(KO_MODULE_PATH)/../../../include
+ccflags-y += -I$(KO_MODULE_PATH)/../../../platform/include
+ccflags-y += -I$(KO_MODULE_PATH)/../../../platform/dmaengine_2stage_pcm
+
+ifeq ($(BSP_KERNEL_DEFCONFIG),sprd_sharkl3_defconfig)
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_SHARKL3
+endif
+ifeq ($(BSP_KERNEL_DEFCONFIG),sprd_pike2_defconfig)
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_PIKE2
+endif
+ifeq ($(BSP_KERNEL_DEFCONFIG),sprd_sharkle_defconfig)
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_SHARKLE
+endif
+
+KO_MODULE_SRC += $(wildcard $(KO_MODULE_PATH)/*.c)
+
+#
+# Final Objects
+#
+obj-m := $(KO_MODULE_NAME).o
+# Comment it if the only object file has the same name with module
+$(KO_MODULE_NAME)-y := $(patsubst $(src)/%.c,%.o,$(KO_MODULE_SRC))

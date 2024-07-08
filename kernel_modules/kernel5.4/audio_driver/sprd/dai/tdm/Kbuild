@@ -1,0 +1,35 @@
+#
+# snd-soc-sprd-tdm.ko
+#
+# Kbuild: for kernel building external module
+#
+# Note:
+# - Please use these predefined name for keeping code:
+#   KO_MODULE_NAME KO_MODULE_PATH KO_MODULE_SRC
+#
+
+#
+# Source List
+#
+KO_MODULE_NAME := snd-soc-sprd-tdm
+KO_MODULE_PATH := $(src)
+KO_MODULE_SRC  :=
+
+ccflags-y += -I$(KO_MODULE_PATH)
+ccflags-y += -I$(KO_MODULE_PATH)/../../include
+ccflags-y += -I$(KO_MODULE_PATH)/../../platform/include
+ccflags-y += -I$(KO_MODULE_PATH)/../../platform/dmaengine_pcm
+ccflags-y += -I$(KO_MODULE_PATH)/../../../sprd_audio/agdsp_access
+
+ifeq ($(BSP_KERNEL_DEFCONFIG),sprd_qogirn6pro_defconfig)
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_TDM
+endif
+
+KO_MODULE_SRC += $(wildcard $(KO_MODULE_PATH)/*.c)
+
+#
+# Final Objects
+#
+obj-m := $(KO_MODULE_NAME).o
+# Comment it if the only object file has the same name with module
+$(KO_MODULE_NAME)-y := $(patsubst $(src)/%.c,%.o,$(KO_MODULE_SRC))

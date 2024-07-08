@@ -1,0 +1,194 @@
+/*
+ * R61350 Truly LCD config dtsi file for spreadtrum
+ *
+ * Copyright (C) 2018, Spreadtrum Communications Inc.
+ *
+ * SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ */
+
+/ {
+	fragment {
+		target-path = "/";
+		__overlay__ {
+			lcds {
+				lcd_hx83108a_boe_mipi_hd: lcd_hx83108a_boe_mipi_hd {
+
+					sprd,dsi-work-mode = <1>; /* video burst mode*/
+					sprd,dsi-lane-number = <4>;
+					sprd,dsi-color-format = "rgb888";
+
+					sprd,phy-bit-clock = <1008000>;	/* kbps */
+					sprd,phy-escape-clock = <20000>;/* kHz */
+					sprd,dpi-clk-div = <6>;
+					sprd,video-lp-cmd-enable = <1>;
+					sprd,hporch-lp-disable = <1>;
+
+					sprd,width-mm = <0x47>;
+					sprd,height-mm = <0x9C>;
+					sprd,esd-check-enable = <1>;
+					sprd,esd-check-mode = <0>;
+					sprd,esd-check-period = <2000>;
+					sprd,esd-check-register = <0x0A>;
+					sprd,esd-check-value = <0x9D>;
+
+					sprd,power-i2c-bus = <4>;
+					sprd,power-i2c-addr = <0x3e>;
+					sprd,power-i2c-reg = [00 01 03];
+					sprd,power-i2c-val = [14 14 43];
+
+					sprd,reset-on-sequence = <1 5>, <0 3>, <1 50>, <0 3>, <1 20>;
+					sprd,reset-off-sequence = <1 5>;
+					sprd,himax-sequence = <1>;
+					sprd,reset-off-avdd-sequence = <0 20>;
+
+					sprd,himax-vsn-recovery = <1>;
+					/*
+					 * Use 4 bits number for descripting video lp mode, and it can be combined used.
+					 * BIT(0): allow vactive enter lp;
+					 * BIT(1): allow vfp enter lp;
+					 * BIT(2): allow vbp enter lp;
+					 * BIT(3): allow vsa enter lp;
+					 * For example:
+					 * If we need vfp & vbp enter lp, we can calculate this value as a result of BIT(1) | BIT(2)
+					 * And we get the result of 3 and set this value to lcd dt property sprd,video-lp-en-mode.
+					 * If we need all stage can enter lp, we can calculate this value as a result of BIT(0) | BIT(1) | BIT(2) | BIT(3).
+					 * And we get the result of 15 and set this value to lcd dt property sprd,video-lp-en-mode.
+					 */
+					sprd,video-lp-en-mode = <2>;
+					sprd,use-dcs-write;
+					sprd,initial-command = [
+						39 00 00 04 B9 83 10 8A
+						39 00 00 02 BD 00
+						39 00 00 12 B1 2C 37 37 35 35 22 43 57 18 18 0C 98 21 11 46 34 FF
+						39 00 00 11 B2 00 26 D0 40 00 E2 3A 20 5E 11 00 00 00 55 22 DF
+						39 00 00 0F B4 14 14 14 14 14 14 14 50 14 50 02 52 01 02
+						39 00 00 05 BA 73 03 A8 96
+						39 00 00 03 BF FC 40
+						39 00 00 07 C0 62 62 11 22 B3 CF
+						39 00 00 02 E9 C5
+						39 00 00 09 C7 88 CA 08 14 02 04 04 00
+						39 00 00 02 E9 3F
+						39 00 00 02 E9 C6
+						39 00 00 04 C8 87 13 FF
+						39 00 00 02 E9 3F
+						39 00 00 02 CC 02
+						39 00 00 06 CB 13 08 E0 09 57
+						39 00 00 03 D1 27 02
+						39 00 00 05 D2 07 0F 07 0F
+						39 00 00 20 D3 C0 00 08 08 00 00 37 37 44 43 DD DD DD DD 32 10 D9 00 D9 32 10 08 00 08 32 10 08 00 08 00 00
+						39 00 00 2D D5 18 18 18 18 BE BE 18 18 20 21 22 23 04 05 06 07 00 01 02 03 3E 3E 3E 3E 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+						39 00 00 2D D6 18 18 3E 3E BE BE 18 18 23 22 21 20 03 02 01 00 07 06 05 04 18 18 3E 3E 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18 18
+						39 00 00 25 D8 2E AA AB 00 00 00 2E AA AB 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+						39 00 00 14 E7 D2 14 14 01 0F 84 00 3C 3C 32 32 00 00 00 00 E9 10 01 02
+						39 00 00 02 E9 DD
+						39 00 00 02 E7 32
+						39 00 00 02 E9 3F
+						39 00 00 02 E9 E0
+						39 00 00 02 E7 08
+						39 00 00 02 E9 3F
+						39 00 00 2F E0 0D 09 10 14 1A 29 3E 43 4A 46 61 68 70 81 80 8A 93 A6 A6 52 5A 65 73 00 09 10 14 1A 29 3E 43 4A 46 61 68 70 81 80 8A 93 A6 A6 52 5A 65 73
+						39 00 00 02 BD 01
+						39 00 00 03 B1 01 1B
+						39 00 00 02 BF 0E
+						39 00 00 02 E9 C6
+						39 00 00 03 D2 D4 EC
+						39 00 00 02 E9 3F
+						39 00 00 02 E9 C8
+						39 00 00 02 D3 81
+						39 00 00 02 E9 3F
+						39 00 00 05 CB 00 34 02 01
+						39 00 00 25 D8 FF FF FF 00 00 00 FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+						39 00 00 0E E7 01 00 20 01 00 00 29 02 33 04 1B 00 00
+						39 00 00 02 BD 02
+						39 00 00 0D D8 FF FF FF FF FF F0 FF FF FF FF FF F0
+						39 00 00 02 E9 E0
+						39 00 00 02 E7 D1
+						39 00 00 02 E9 3F
+						39 00 00 02 BD 03
+						39 00 00 19 D8 AE AA AA AA AA A0 AE AA AA AA AA A0 AE AA AA AA AA A0 AE AA AA AA AA A0
+						39 00 00 25 E4 13 3C 46 51 84 85 86 87 E5 FF FF 03 65 7F A3 AD B7 C1 C6 7A 7C AA EA 03 65 7F A3 AD B7 C1 C6 7A 7C AA EA 03
+						39 00 00 02 BD 01
+						39 00 00 28 E4 E1 E1 E1 E1 E1 E1 E1 E1 C5 B0 9E 8E 7F 73 67 5B 4F 45 39 34 2B 25 22 1D 17 13 0E 0A 08 05 01 54 55 55 55 55 55 55 55
+						39 00 00 02 BD 00
+						39 00 00 02 35 00
+						05 7A 00 01 11
+						39 00 00 02 E9 FF
+						39 00 00 02 BF 02
+						39 00 00 02 E9 3F
+						39 00 00 06 C9 00 1E 07 18 01
+						39 00 00 04 B9 00 00 00
+						39 00 00 02 53 24
+						05 01 00 01 29
+						];
+
+					sprd,sleep-in-command = [
+						05 14 00 01 28
+						05 78 00 01 10
+						];
+
+					sprd,sleep-in-command-gesture-off = [
+						05 14 00 01 28
+						05 78 00 01 10
+						39 00 00 04 B9 83 10 8A
+						15 00 00 02 BD 00
+						15 14 00 02 B1 2D
+						];
+
+					sprd,sleep-out-command = [
+						05 64 00 01 11
+						05 14 00 01 29
+						];
+
+					sprd,cabc-off-command = [
+						23 00 00 02 55 00
+						];
+					sprd,cabc-ui-command = [
+						23 00 00 02 55 01
+						];
+					sprd,cabc-still-command = [
+						23 00 00 02 55 02
+						];
+					sprd,cabc-moving-command = [
+						23 00 00 02 55 03
+						];
+
+
+					display-timings {
+						native-mode = <&hx83108a_boe_timing0>;
+
+						hx83108a_boe_timing0: timing0 {
+							clock-frequency = <168000000>;
+							hactive = <720>;
+							vactive = <1600>;
+							hback-porch = <120>;
+							hfront-porch = <120>;
+							vback-porch = <220>;
+							vfront-porch = <1004>;
+							hsync-len = <28>;
+							vsync-len = <8>;
+						};
+						hx83108a_boe_timing1: timing1 {
+							clock-frequency = <168000000>;
+							hactive = <720>;
+							vactive = <1600>;
+							hback-porch = <120>;
+							hfront-porch = <120>;
+							vback-porch = <220>;
+							vfront-porch = <60>;
+							hsync-len = <28>;
+							vsync-len = <8>;
+						};
+					};
+
+					oled-backlight {
+						default-brightness = <1306>;
+						sprd,max-level = <4095>;
+						brightness-levels = [
+            		    	39 00 00 03 51 00 00
+						];
+					};
+				};
+			};
+		};
+	};
+};

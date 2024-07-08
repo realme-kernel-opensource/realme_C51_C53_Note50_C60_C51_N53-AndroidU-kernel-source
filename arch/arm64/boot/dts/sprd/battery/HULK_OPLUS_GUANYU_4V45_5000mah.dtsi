@@ -1,0 +1,79 @@
+/*GUANYU 10K*/
+/ {
+	fragment {
+			target-path = "/";
+			__overlay__ {
+
+			bat1: battery1 {
+				compatible = "simple-battery";
+				charge-full-design-microamp-hours = <4618000>;
+				charge-term-current-microamp = <120000>;
+				constant-charge-voltage-max-microvolt = <4435000>;
+				factory-internal-resistance-micro-ohms = <80000>;
+				voltage-min-design-microvolt = <3456000>;
+				fast-charge-threshold-microvolt = <4100000>;
+				fullbatt-voltage = <4369000>;
+				fullbatt-current = <120000>;
+				first-fullbatt-current = <150000>;
+				fullbatt-track-end-vol = <4364000>;
+				fullbatt-track-end-cur = <130000>;
+				first-calib-voltage = <3625000>;
+				first-calib-capacity = <40>;
+				batt-ovp-threshold-microvolt = <4800000>;
+
+				ir-cv-offset-microvolt = <100000>;
+				ir-rc-micro-ohms = <20000>;
+				ir-us-upper-limit-microvolt = <4500000>;
+
+				ocv-capacity-celsius = <20>;
+				ocv-capacity-table-0 = <4369000 100>, <4317000 95>, <4261000 90>,
+							<4204000 85>, <4148000 80>, <4096000 75>,
+							<4047000 70>, <4002000 65>, <3952000 60>,
+							<3897000 55>, <3866000 50>, <3841000 45>,
+							<3821000 40>, <3804000 35>, <3789000 30>,
+							<3767000 25>, <3747000 20>, <3722000 15>,
+							<3696000 10>, <3680000 5>, <3400000 0>;
+				voltage-temp-table = <958265 600>, <917837 650>, <872101 700>, <821931 750>,
+							<768435 800>, <713168 850>, <657516 900>,
+							<602735 950>, <550403 1000>, <501635 1050>,
+							<456863 1100>, <416389 1150>, <380379 1200>,
+							<348694 1250>, <320955 1300>, <296949 1350>,
+							<276277 1400>, <258473 1450>, <243212 1500>,
+							<230161 1550>, <219003 1600>, <209615 1650>,
+							<201600 1700>, <194717 1750>, <188820 1800>,
+							<183776 1850>, <179442 1900>, <175680 1950>;
+				capacity-temp-table = <50 99>, <45 100>, <25 100>, <15 99>, <10 98>, <0 94>, <(-10) 90>, <(-20) 83>;
+				resistance-temp-table = <55 77>, <45 92>, <25 100>, <10 153>, <0 1197>, <(-10) 1431>, <(-20) 1615>;
+
+				charge-sdp-current-microamp = <500000 500000>;
+				charge-dcp-current-microamp = <2000000 2500000>;
+				charge-cdp-current-microamp = <1500000 1500000>;
+				charge-unknown-current-microamp = <1050000 1050000>;
+				charge-fchg-current-microamp = <3250000 2000000>;
+				charge-flash-current-microamp = <5000000 2700000>;
+				charge-wl-bpp-current-microamp = <1000000 1000000>;
+				charge-wl-epp-current-microamp = <2000000 1000000>;
+
+				cap-calib-energy-density-ocv-table = <3350000 3800000>, <4150000 4350000>;
+				cap-track-energy-density-ocv-table = <3400000 3680000>;
+
+				dcp-jeita-temp-table = <1000 1030 0 4340000>, <1150 1180 700000 4340000>,
+					<1450 1420 2000000 4340000>, <1600 1570 700000 4100000>;
+				sdp-jeita-temp-table = <1000 1030 0 4340000>, <1150 1180 500000 4340000>,
+					<1450 1420 500000 4340000>, <1600 1570 500000 4100000>;
+				cdp-jeita-temp-table = <1000 1030 0 4340000>, <1150 1180 700000 4340000>,
+					<1450 1420 1500000 4340000>, <1600 1570 700000 4100000>;
+				unknown-jeita-temp-table = <1000 1030 0 4340000>, <1150 1180 700000 4340000>,
+					<1450 1420 1050000 4340000>, <1600 1570 700000 4100000>;
+				fchg-jeita-temp-table = <1000 1030 0 4340000>, <1150 1180 700000 4340000>,
+					<1450 1420 3250000 4340000>, <1600 1570 700000 4100000>;
+				flash-jeita-temp-table = <1000 1030 0 4340000>, <1150 1180 1000000 4340000>,
+					<1450 1420 5000000 4340000>, <1600 1570 1000000 4100000>;
+				wl-bpp-jeita-temp-table = <1000 1030 0 4340000>, <1150 1180 500000 4340000>,
+					<1450 1420 1000000 4340000>, <1600 1570 5000000 4100000>;
+				wl-epp-jeita-temp-table = <1000 1030 0 4340000>, <1150 1180 500000 4340000>,
+					<1450 1420 2000000 4340000>, <1600 1570 500000 4100000>;
+			};
+		};
+	};
+};

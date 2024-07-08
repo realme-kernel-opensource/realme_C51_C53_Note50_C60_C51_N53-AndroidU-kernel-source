@@ -1,0 +1,191 @@
+/*
+ * unisoc UMP518 PMIC dts file, it is based on sc2730.dtsi
+ *
+ * Copyright (C) 2020, Spreadtrum Communications Inc.
+ *
+ * SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ */
+#include <dt-bindings/mfd/sprd,ump518-regs.h>
+#include <dt-bindings/mfd/sprd,ump518-mask.h>
+
+&sc2730_pmic {
+	compatible = "sprd,ump518";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
+
+	syscon@1800 {
+		compatible = "sprd,ump518-syscon", "sprd,sc27xx-syscon";
+		reg = <0x1800>, <0x1ba0>, <0x1b98>, <0x1d1c>;
+	};
+
+	eic_dbnc@2000 {
+		compatible = "sprd,ump518-eic-dbnc";
+		reg = <0x200>;
+		interrupt-parent = <&sc2730_pmic>;
+		interrupts = <8>;
+	};
+
+	efuse@2100 {
+		compatible = "sprd,ump518-efuse";
+		reg = <0x2100>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		hwlocks = <&hwlock 12>;
+		/* Data cells */
+		adc_bcal1: calib@48 {
+			reg = <0x48 0x2>;
+		};
+
+		adc_bcal2: calib@46 {
+			reg = <0x46 0x2>;
+		};
+
+		adc_scal1: calib@42 {
+			reg = <0x42 0x2>;
+		};
+
+		adc_scal2: calib@44 {
+			reg = <0x44 0x2>;
+		};
+
+		vbat_det_cal1: calib@3e {
+			reg = <0x3e 0x2>;
+		};
+
+		vbat_det_cal2: calib@40 {
+			reg = <0x40 0x2>;
+		};
+
+		pddelta_calib_518: calib@38 {
+			reg = <0x38 0x2>;
+		};
+
+		pdrc_calib_518: calib@2a {
+			reg = <0x2a 0x2>;
+		};
+
+		pdref_calib_518: calib@36 {
+			reg = <0x36 0x2>;
+		};
+
+		fgu_calib1: calib@4c {
+			reg = <0x4c 0x2>;
+		};
+
+		fgu_calib2: calib@4e {
+			reg = <0x4e 0x2>;
+		};
+
+		fgu_calib3: calib@60 {
+			reg = <0x60 0x2>;
+		};
+
+		typec_cc1_cal_518: calib@d1 {
+			reg = <0x36 0x2>;
+		};
+
+		typec_cc2_cal_518: calib@d2 {
+			reg = <0x36 0x2>;
+		};
+
+		aud_pabst_vcal_518: calib@20 {
+			reg = <0x20 0x2>;
+		};
+
+		neg_cp_efuse_518: calib@22 {
+			reg = <0x22 0x2>;
+		};
+
+		headset_adc_fir_518: calib@17 {
+			reg = <0x16 0x2>;
+		};
+
+		headset_adc_sec_518: calib@16 {
+			reg = <0x2c 0x2>;
+		};
+
+		codec_product_info_518: calib@2e {
+			reg = <0x2e 0x2>;
+		};
+	};
+
+};
+
+&pmic_rtc {
+	interrupts = <2>;
+};
+
+&pmic_eic {
+	interrupts = <5>;
+};
+
+&pmic_efuse {
+	status = "disable";
+};
+
+&pmic_typec {
+	interrupts = <9>;
+	nvmem-cells = <&typec_cc1_cal_518>, <&typec_cc2_cal_518>;
+	nvmem-cell-names = "typec_cc1_cal", "typec_cc2_cal";
+};
+
+&pmic_fchg {
+	compatible = "sprd,ump518-fast-charger";
+	interrupts = <6 IRQ_TYPE_LEVEL_HIGH>;
+	nvmem-cell-names = "fchg_cur_calib";
+	nvmem-cells = <&headset_adc_fir_518>;
+};
+
+&pmic_adc {
+	compatible = "sprd,ump518-adc";
+	nvmem-cells = <&adc_bcal1>, <&adc_bcal2>, <&adc_scal1>, <&adc_scal2>, <&vbat_det_cal1>, <&vbat_det_cal2>;
+	nvmem-cell-names = "big_scale_calib1", "big_scale_calib2", "small_scale_calib1", "small_scale_calib2", "vbat_det_cal1", "vbat_det_cal2";
+};
+
+&pmic_fgu {
+	compatible = "sprd,ump518-fgu";
+	nvmem-cell-names = "fgu_calib1", "fgu_calib2", "fgu_calib3";
+	nvmem-cells = <&fgu_calib1>, <&fgu_calib2>, <&fgu_calib3>;
+	interrupts = <4>;
+};
+
+&pmic_pd {
+	compatible = "sprd,sc27xx-pd", "sprd,ump518-pd";
+	interrupts = <1 IRQ_TYPE_LEVEL_HIGH>;
+	nvmem-cells = <&pdrc_calib_518>, <&pddelta_calib_518>, <&pdref_calib_518>;
+	nvmem-cell-names = "pdrc_calib", "pddelta_calib", "pdref_calib";
+};
+
+&sprd_audio_codec_ana {
+	nvmem-cells = <&aud_pabst_vcal_518>,
+		<&neg_cp_efuse_518>,
+		<&fgu_calib2>,
+		<&codec_product_info_518>;
+};
+
+&pmic_power {
+	compatible = "sprd,ump518-regulator";
+	vddldo3: LDO_VDDLDO3 {
+		 regulator-name = "vddldo3";
+		 regulator-min-microvolt = <1200000>;
+		 regulator-max-microvolt = <3750000>;
+		 regulator-ramp-delay = <25000>;
+		 regulator-always-on;
+	};
+};
+
+&pmic_vibrator {
+	compatible = "sprd,ump518-vibrator";
+};
+
+&pmic_smpl {
+	compatible = "sprd,sc27xx-smpl", "sprd,ump518-smpl";
+};
+
+/*sprd-sound-fe-be.dtsi*/
+&sprd_headset {
+	nvmem-cells = <&headset_adc_fir_518>, <&headset_adc_sec_518>;
+	nvmem-cell-names = "hp_adc_fir_calib", "hp_adc_sec_calib";
+};
+

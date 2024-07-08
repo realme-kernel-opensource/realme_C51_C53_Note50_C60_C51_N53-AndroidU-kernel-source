@@ -1,0 +1,6 @@
+config TOUCHSCREEN_CHIPONE
+	tristate "Chipone TDDI touchscreen"
+	default m
+	help
+	  Say y here if you have chipone TDDI touch panel.
+	  If unsure, say N.

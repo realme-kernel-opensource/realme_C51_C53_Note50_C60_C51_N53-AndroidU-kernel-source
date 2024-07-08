@@ -1,0 +1,30 @@
+/* Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+
+/ {
+	fragment {
+		target-path = "/";
+		__overlay__ {
+			sia81xx_L: sia81xx@L {
+				compatible = "si,sia81xx";
+				si,si_pa_type = "sia8100x";
+				si,si_pa_reset = <&ap_gpio 129 0>;
+				si,si_pa_owi = <&ap_gpio 129 0>;
+				si,si_pa_id = <&ap_gpio 46 0>;
+				si,si_pa_disable_pin = <0>;
+				channel_num = <0>;
+			};
+		};
+	};
+};
+

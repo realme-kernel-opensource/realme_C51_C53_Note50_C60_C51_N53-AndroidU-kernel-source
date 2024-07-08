@@ -1,0 +1,73 @@
+#
+# snd-soc-sipa.ko
+#
+# Kbuild: for kernel building external module
+#
+# Note:
+# - Please use these predefined name for keeping code:
+#   KO_MODULE_NAME KO_MODULE_PATH KO_MODULE_SRC
+#
+
+#
+# Source List
+#
+KO_MODULE_NAME := snd-soc-sipa
+KO_MODULE_PATH := $(src)
+KO_MODULE_SRC  :=
+
+COMPILE_TO_MODULE = n
+DEVICE_TYPE_DIGITAL = n
+PLATFORM_TYPE = sprd
+EXTRA_CFLAGS += $(call cc-option,-Wno-date-time,)
+
+
+ccflags-y += -I$(KO_MODULE_PATH)
+ccflags-y += -I$(KO_MODULE_PATH)/../tuning
+ccflags-y += -I$(KO_MODULE_PATH)/../../../../../sprd_audio/agdsp_access
+
+ifeq ($(BSP_KERNEL_DEFCONFIG),sprd_qogirl6_defconfig)
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_CODEC_SIA81XX
+
+ifeq ($(DEVICE_TYPE_DIGITAL),y)
+EXTRA_CFLAGS += -DSIA91XX_TYPE
+
+ifeq ($(PLATFORM_TYPE),mtk)
+EXTRA_CFLAGS += -DPLATFORM_TYPE_MTK
+subdir-ccflags-y += -I$(srctree)/sound/soc/mediatek/common
+endif
+
+ifeq ($(PLATFORM_TYPE),qcom)
+EXTRA_CFLAGS += -DPLATFORM_TYPE_QCOM
+endif
+
+endif
+
+ifeq ($(COMPILE_TO_MODULE),y)
+EXTRA_CFLAGS += -DSIPA_COMPILE_TO_MODULE
+endif
+
+endif
+
+#KO_MODULE_SRC += $(wildcard $(KO_MODULE_PATH)/*.c)
+
+#
+# Final Objects
+#
+obj-m := $(KO_MODULE_NAME).o
+
+SPRD_CARD_COMMON := \
+        sipa.o \
+        sipa_regmap.o \
+        sipa_aux_dev_if.o \
+        sipa_91xx.o \
+        sipa_parameter.o
+
+#ifeq ($(PLATFORM_TYPE),qcom)
+#SPRD_CARD_COMMON += sipa_afe.o
+#endif
+
+$(KO_MODULE_NAME)-y += $(SPRD_CARD_COMMON)
+
+
+# Comment it if the only object file has the same name with module
+#$(KO_MODULE_NAME)-y := $(patsubst $(src)/%.c,%.o,$(KO_MODULE_SRC))

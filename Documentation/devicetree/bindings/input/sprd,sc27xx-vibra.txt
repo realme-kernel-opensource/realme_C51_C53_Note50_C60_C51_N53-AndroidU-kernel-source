@@ -1,0 +1,26 @@
+Spreadtrum SC27xx PMIC Vibrator
+
+Required properties:
+- compatible: following options:
+		"sprd,sc2731-vibrator",
+		"sprd,sc2730-vibrator",
+		"sprd,sc2721-vibrator".
+- reg: address of vibrator control register.
+
+Example :
+
+	sc2731_pmic: pmic@0 {
+		compatible = "sprd,sc2731";
+		reg = <0>;
+		spi-max-frequency = <26000000>;
+		interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-controller;
+		#interrupt-cells = <2>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		vibrator@eb4 {
+			compatible = "sprd,sc2731-vibrator";
+			reg = <0xeb4>;
+		};
+	};

@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: GPL-2.0
+obj-$(CONFIG_UNISOC_IOMMU)			+= iommu/
+obj-$(CONFIG_UNISOC_MODEM_LOADER)		+= modem_loader/
+obj-$(CONFIG_UNISOC_SIPC_VIRT_BUS)		+= sipc_virt_bus/
+obj-$(CONFIG_UNISOC_MAILBOX)			+= mailbox/
+obj-$(CONFIG_UNISOC_WCN_BSP)			+= sprdwcn/
+obj-$(CONFIG_UNISOC_GNSS)                       += sprd_gnss/
+obj-$(CONFIG_UNISOC_MAPUSER)                    += sprd_map/
+obj-$(CONFIG_WLAN_VENDOR_SPREADTRUM)		+= wlan/
+obj-y						+= sprd_apdu/
+obj-$(CONFIG_SPRD_CP_DUMP)			+= cp_dump/
+obj-$(CONFIG_SPRD_MODEM_DEBUG) += debug_log/

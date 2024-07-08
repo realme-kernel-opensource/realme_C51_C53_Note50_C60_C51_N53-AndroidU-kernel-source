@@ -1,0 +1,15 @@
+config DRM_SPRD_GSP
+	tristate "SPRD DRM GSP driver"
+	depends on ARCH_SPRD
+	depends on DRM_SPRD
+	help
+	  GSP is hardware which not only can compose multiple layers
+	  but also can transform and scale layers.
+
+config DRM_SPRD_GSP_IPC_TRUSTY
+	bool "SPRD DRM GSP widevine driver"
+	depends on DRM_SPRD_GSP
+	depends on TRUSTY_VIRTIO_IPC
+	---help---
+	  This function is to support the widevine function.
+

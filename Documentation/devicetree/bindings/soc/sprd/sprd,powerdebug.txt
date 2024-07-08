@@ -1,0 +1,28 @@
+Unisoc power-debug bindings
+
+This node is used to define control information and address space node used the
+power debug driver, which output the power and interrupt state will help us to
+analyze the SoC system power exception.
+
+Required properties:
+- compatible: Should be "sprd,debuglog"
+
+optional properties:
+ - sprd,pdbg-irq-domain-gic: irq domain name for gic
+ - sprd,pdbg-irq-domain-gpio: irq domain name for gpio
+ - sprd,pdbg-irq-domain-ana: irq domain name for ana
+ - sprd,pdbg-irq-domain-ana-eic: irq domain name for ana eic
+ - sprd,pdbg-irq-domain-ap-eic-dbnc: irq domain name for ap dbnc eic
+ - sprd,pdbg-irq-domain-ap-eic-latch: irq domain name for ap latch eic
+ - sprd,pdbg-irq-domain-ap-eic-async: irq domain name for ap async eic
+ - sprd,pdbg-irq-domain-ap-eic-sync: irq domain name for ap sync eic
+
+Example:
+	debug_log: debuglog {
+		compatible                         = "sprd,debuglog";
+		sprd,pdbg-irq-domain-gic           = "GICv3";
+		sprd,pdbg-irq-domain-gpio          = "sprd-gpio-plus";
+		sprd,pdbg-irq-domain-ana           = "spi4.0";
+		sprd,pdbg-irq-domain-ana-eic       = "41800000.spi:pmic@0:gpio-controller@280";
+		sprd,pdbg-irq-domain-ap-eic-async  = "402100a0.gpio";
+	};

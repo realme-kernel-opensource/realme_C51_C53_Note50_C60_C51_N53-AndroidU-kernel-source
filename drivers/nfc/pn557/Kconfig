@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Nxp Nci protocol (I2C) devices
+#
+
+config NFC_PN557
+        tristate "Nxp pn557 NCI protocol driver (I2C) devices"
+        default m
+        help
+          You'll have to say Y if your computer contains an I2C device that
+          you want to use under Linux.
+
+          You can say N here if you don't have any SPI connected to your computer.

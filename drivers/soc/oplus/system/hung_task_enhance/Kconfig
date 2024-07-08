@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2018-2020 Oplus. All rights reserved.
+config OPLUS_FEATURE_HUNG_TASK_ENHANCE
+	tristate "system hung task enhance"
+	default n
+	help
+      define this config to enable QCOM platform uboot log .
+
+config OPLUS_FEATURE_DEATH_HEALER
+	tristate "Enable DeathHealer"
+	default n
+	help
+	  define this config to enable DEATH_HEALER .

@@ -1,0 +1,99 @@
+DT binding for Unisoc apcpu hardware dvfs driver in platforms whose dvfs ip is similar to sharkl5
+=================================================================================================
+
+Both apcpu_dvfs and topdvfs_controller nodes listed below must be defined.
+
+Node apcpu_dvfs
+-------------------------
+Required properties:
+- compatible: must iclude: sprd,cpufreq-v2.
+
+Node topdvfs_controller
+------------------------
+Required properties:
+- compatible: must select one config from following options
+	sprd,sharkl5-topdvfs and syscon,
+	sprd,roc1-topdvfs and syscon,
+	sprd,sharkl5pro-topdvfs and syscon,
+	sprd,orca-topdvfs and syscon.
+- sprd,syscon-enable: A phandle to the aon apb controller node
+- module-enable-cfg: A property describing how to enable or disable the
+			topdvfs_controller configuration. for example, <0x4 7>
+			means the register offset in aon apb controller is 0x4,
+			the control bit is 7.
+- reg: physical base address and the length of the register set for
+	the top dvfs device.
+- device-dcdc-cells: A phandle to the power domains supplying for devices
+			excluding DSU and cores, every power domain which supports
+			hardware dvfs function has its own dvfs controller in
+			top dvfs device.
+	- dcdc_XX: child node of topdvfs_controller node, XX represents the
+		  device name such as mm, modem
+		- dcdc-dvfs-enable: A property describing how to control the
+			dvfs function of power domain dcdc_XX. for example,
+			<0x18 20 0> means that the register offset is 0x18, the
+			function control bit is 20, and the hw dvfs function
+			should be disabled.
+		- dcdc-judge-vol-sw: A property describing some necessary
+			information of the judge voltage which must be matched
+			with the real voltage value before enable the hardware
+			dvfs function. for exapmple, <0x18 1 0x7 7> means the
+			register offset is 0x18, the left shift base bit is 1,
+			the mask is 0x7, the current real voltage for this
+			dcdc_XX power domain is 7(1.0v).
+		- dcdc-subsys-cells: A phandle to the subsystem supplied by
+		 	 dcdc_XX.
+			- YY_sys: child node of dcdc_XX, YY represents the name
+			  of a subsystem.
+				-dcdc-subsys-tune-enable: A property describing
+					how to control the hw dvfs function of
+					the YY_sys.for example, <0x150 5 0>
+					means the register offset is 0x150, the
+					control bit is 5, and the hw dvfs
+					function should be disabled.
+Optional properties:
+- dcdc-modem-mm-share-en: The register information to enable dcdc-modem and
+			dcdc-mm shared, for example, <0x170 0> means the
+			register offest in top dvfs is 0x170, the control bit is 0.
+- dcdc-modem-mm-share: A bool flag, if this flag is defined in board dts, it
+			means the power domains dcdc-modem and dcdc-mm are
+			shared in hardware design.
+
+Example 1: Example for apcpu_dvfs
+---------
+apcpu_dvfs: apcpu-dvfs {
+	compatible = "sprd,cpufreq-v2";
+};
+
+Example 2: Example for topdvfs_controller
+---------
+topdvfs_controller: topdvfsctrl@322A0000 {
+	compatible = "sprd,sharkl5-topdvfs", "syscon";
+	sprd,syscon-enable = <&aon_apb_regs>;
+	module-enable-cfg = <0x4 7>;
+	reg = <0 0x322A0000 0 0x8000>;
+	device-dcdc-cells = <&dcdc_mm>;
+
+	<...>
+
+	dcdc_mm: dcdc-mm {
+		dcdc-dvfs-enable = <0x18 20 0>;
+		dcdc-judge-vol-sw = <0x18 1 0x7 7>;
+		dcdc-subsys-cells =	<&audcp_sys>,
+					<&gpu_sys>,
+					<&mm_sys>;
+		audcp_sys: audcp-sys {
+			dcdc-subsys-tune-enable = <0x150 5 0>;
+		};
+
+		<...>
+	};
+
+	<...>
+};
+
+&topdvfs_controller {
+	dcdc-modem-mm-share-en = <0x170 0>;
+	dcdc-modem-mm-share;
+};
+

@@ -1,0 +1,176 @@
+/*
+ * R61350 Truly LCD config dtsi file for spreadtrum
+ *
+ * Copyright (C) 2018, Spreadtrum Communications Inc.
+ *
+ * SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+ */
+
+/ {
+	fragment {
+		target-path = "/";
+		__overlay__ {
+			lcds {
+				lcd_ft8057_ld_mipi_hd: lcd_ft8057_ld_mipi_hd {
+
+					sprd,dsi-work-mode = <1>; /* video burst mode*/
+					sprd,dsi-lane-number = <4>;
+					sprd,dsi-color-format = "rgb888";
+
+					sprd,phy-bit-clock = <1105000>;	/* kbps */
+					sprd,phy-escape-clock = <20000>;/* kHz */
+
+					sprd,width-mm = <0x47>;
+					sprd,height-mm = <0x9C>;
+					sprd,esd-check-enable = <0>;
+					sprd,esd-check-mode = <1>;
+					sprd,esd-check-period = <2000>;
+					/* sprd,esd-check-register = <0x0A>; */
+					/* sprd,esd-check-value = <0x9C>; */
+
+					sprd,reset-on-sequence = <1 5>, <0 5>, <1 30>;
+					sprd,reset-off-sequence = <0 5>;
+
+					//sprd,use-dcs-write;
+					sprd,initial-command = [
+		29 00 00 02 00 00
+		29 00 00 04 FF 80 57 01
+		29 00 00 02 00 80
+		29 00 00 03 FF 80 57
+		29 00 00 02 00 86
+		29 00 00 02 A4 B6
+		29 00 00 02 00 A3
+		29 00 00 02 A5 04
+		29 00 00 02 00 A5
+		29 00 00 02 B0 1D
+		29 00 00 02 00 A3
+		29 00 00 05 B3 06 40 00 18
+		29 00 00 02 00 86
+		29 00 00 02 B7 80
+		29 00 00 02 00 70
+		29 00 00 07 C0 00 9F 01 14 00 1C
+		29 00 00 02 00 CA
+		29 00 00 03 C0 90 00
+		29 00 00 02 00 A1
+		29 00 00 07 C1 CC 3C 00 3B 00 EC
+		29 00 00 02 00 68
+		29 00 00 25 C2 8A 09 68 B6 89 09 68 B6 86 09 68 B6 85 09 68 B6 06 04 68 B6 07 04 68 B6 08 04 68 B6 09 04 68 B6 0D 09 68 B6
+		29 00 00 02 00 8C
+		29 00 00 59 C2 82 02 03 68 B6 81 03 03 68 B6 80 04 03 68 B6 01 05 03 68 B6 02 06 03 68 B6 03 07 03 68 B6 04 08 03 68 B6 05 09 03 68 B6 06 86 03 68 B6 07 85 03 68 B6 08 84 03 68 B6 09 83 03 68 B6 0A 82 03 68 B6 0B 81 03 68 B6 0C 00 03 68 B6 0D 01 03 68 B6 FF FF FF FF FF FF FF FF
+		29 00 00 02 00 E4
+		29 00 00 05 C2 0E 09 68 B6
+		29 00 00 02 00 90
+		29 00 00 02 C3 00
+		29 00 00 02 00 85
+		29 00 00 15 C4 80 00 00 00 00 00 00 00 00 00 00 88 02 00 00 FF 80 CC 00 08
+		29 00 00 02 00 82
+		29 00 00 03 C5 55 07
+		29 00 00 02 00 90
+		29 00 00 11 C5 84 03 01 6B 15 04 41 6B 25 01 41 51 41 25 55 56
+		29 00 00 02 00 B0
+		29 00 00 11 C5 00 0A 0D 00 0A 02 57 57 37 37 F0 F0 00 00 00 00
+		29 00 00 02 00 B0
+		29 00 00 07 CA 00 00 0C 00 00 06
+		29 00 00 02 00 80
+		29 00 00 45 CB C1 C1 C1 C1 C1 C1 C1 C1 C1 C1 C1 C1 C1 C1 C1 C1 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+		29 00 00 02 00 D2
+		29 00 00 1F CB 83 00 83 83 00 83 83 00 83 83 00 00 00 00 83 83 00 83 83 00 83 83 00 83 83 00 83 C1 00 00
+		29 00 00 02 00 FA
+		29 00 00 03 CB 83 00
+		29 00 00 02 00 80
+		29 00 00 19 CC 00 16 18 00 00 00 00 00 1F 1E 26 1A 14 12 10 0E 0C 0A 08 06 04 02 00 00
+		29 00 00 02 00 80
+		29 00 00 19 CD 00 17 19 00 00 00 00 00 1F 1E 26 1B 15 13 11 0F 0D 0B 09 07 05 03 00 00
+		29 00 00 02 00 80
+		29 00 00 02 CE 00
+		29 00 00 02 00 D0
+		29 00 00 1D CE 01 00 1E 01 01 00 F1 01 00 00 0F FF 00 00 0F 00 00 08 03 39 04 4C 03 39 00 F1 00 F1
+		29 00 00 02 00 99
+		29 00 00 02 CF 56
+		29 00 00 02 00 00
+		29 00 00 03 D8 2B 2B
+		29 00 00 02 00 00
+		29 00 00 19 E1 2D 31 3C 48 50 58 65 71 6F 7A 7A 8B 7B 6A 6D 61 5A 4F 3F 35 2D 1C 10 0F
+		29 00 00 02 00 00
+		29 00 00 19 E2 2D 31 3C 48 50 58 65 71 6F 7A 7A 8B 7B 6A 6D 61 5A 4F 3F 35 2D 1C 10 0F
+		29 00 00 02 00 91
+		29 00 00 05 E9 FF FF FF 00
+		29 00 00 02 00 83
+		29 00 00 15 F5 11 19 19 0D 46 0C 0F C0 00 00 00 00 00 0A AC 4B 01 11 49 0D
+		29 00 00 02 00 B1
+		29 00 00 13 F5 1B 16 16 16 C8 18 1D C1 D9 C1 00 00 00 00 00 00 00 42
+		29 00 00 02 00 00
+		29 00 00 04 FF 00 00 00
+		29 00 00 02 00 80
+		29 00 00 03 FF 00 00
+		29 00 00 03 51 FF 0F
+		29 00 00 02 53 2C
+		29 00 00 02 55 00
+		05 78 00 01 11
+		05 00 00 01 29
+		29 1E 00 02 35 00
+						];
+
+					sprd,sleep-in-command = [
+						05 14 00 01 28
+						05 78 00 01 10
+						];
+
+					sprd,sleep-out-command = [
+						05 14 00 01 11
+						05 78 00 01 29
+						];
+
+					sprd,cabc-off-command = [
+						23 00 00 02 55 00
+						];
+					sprd,cabc-ui-command = [
+						23 00 00 02 55 01
+						];
+					sprd,cabc-still-command = [
+						23 00 00 02 55 02
+						];
+					sprd,cabc-moving-command = [
+						23 00 00 02 55 03
+						];
+
+
+					display-timings {
+						native-mode = <&ft8057_ld_timing0>;
+
+						ft8057_ld_timing0: timing0 {
+							clock-frequency = <153600000>;
+							hactive = <720>;
+							vactive = <1600>;
+							hback-porch = <38>;
+							hfront-porch = <128>;
+							vback-porch = <240>;
+							vfront-porch = <1011>;
+							hsync-len = <8>;
+							vsync-len = <8>;
+						};
+
+						ft8057_ld_timing1: timing1 {
+							clock-frequency = <153600000>;
+							hactive = <720>;
+							vactive = <1600>;
+							hback-porch = <38>;
+							hfront-porch = <128>;
+							vback-porch = <240>;
+							vfront-porch = <57>;
+							hsync-len = <8>;
+							vsync-len = <8>;
+						};
+					};
+					oled-backlight {
+						default-brightness = <1306>;
+						sprd,max-level = <4095>;
+						brightness-levels = [
+            		    	39 00 00 03 51 00 FF
+						];
+					};
+				};
+			};
+		};
+	};
+};

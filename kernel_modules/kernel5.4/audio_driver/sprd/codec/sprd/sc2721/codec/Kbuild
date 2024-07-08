@@ -1,0 +1,59 @@
+#
+# snd-soc-sprd-codec-sc2721.ko
+#
+# Kbuild: for kernel building external module
+#
+# Note:
+# - Please use these predefined name for keeping code:
+#   KO_MODULE_NAME KO_MODULE_PATH KO_MODULE_SRC
+#
+
+#
+# Source List
+#
+KO_MODULE_NAME := snd-soc-sprd-codec-sc2721
+KO_MODULE_PATH := $(src)
+KO_MODULE_SRC  :=
+
+ccflags-y += -I$(KO_MODULE_PATH)
+ccflags-y += -I$(KO_MODULE_PATH)/../include
+ccflags-y += -I$(KO_MODULE_PATH)/../../
+ccflags-y += -I$(KO_MODULE_PATH)/../../../../include
+
+ifeq ($(BSP_KERNEL_DEFCONFIG),sprd_sharkl3_defconfig)
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_CODEC_SC2721
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_SHARKL3
+endif
+ifeq ($(BSP_KERNEL_DEFCONFIG),sprd_pike2_defconfig)
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_CODEC_SC2721
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_PIKE2
+endif
+ifeq ($(BSP_KERNEL_DEFCONFIG),sprd_sharkle_defconfig)
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_CODEC_SC2721
+ccflags-y += -DCONFIG_SND_SOC_UNISOC_SHARKLE
+endif
+
+KO_MODULE_SRC += $(wildcard $(KO_MODULE_PATH)/*.c)
+
+#
+# Final Objects
+#
+obj-m := $(KO_MODULE_NAME).o
+
+CODEC_SC2721_COMMON := \
+		sprd-codec.o
+
+ifeq ($(BSP_BOARD_AUDIO_EXTPA),true)
+CODEC_SC2721_HEADSET := \
+		sprd-headset-sc2721_14c10.o
+else
+CODEC_SC2721_HEADSET := \
+		sprd-headset-sc2721.o
+endif
+
+$(KO_MODULE_NAME)-y += \
+		$(CODEC_SC2721_COMMON) \
+		$(CODEC_SC2721_HEADSET)
+
+# Comment it if the only object file has the same name with module
+# $(KO_MODULE_NAME)-y := $(patsubst $(src)/%.c,%.o,$(KO_MODULE_SRC))

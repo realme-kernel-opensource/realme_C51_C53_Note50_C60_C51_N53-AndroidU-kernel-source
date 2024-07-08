@@ -1,0 +1,26 @@
+#obj-$(CONFIG_TOUCHSCREEN_CHIPONE) += chipone-tddi.o
+obj-m += chipone-tddi.o
+
+ifneq ($(filter userdebug, $(TARGET_BUILD_VARIANT)),)
+    $(warning "===================== userdebug verison chipone_tp  ======================")
+    KBUILD_CFLAGS += -DUSER_DEBUG
+endif
+
+chipone-tddi-objs := cts_i2c_driver.o
+chipone-tddi-objs += cts_core.o
+chipone-tddi-objs += cts_sfctrlv2.o
+chipone-tddi-objs += cts_spi_flash.o
+chipone-tddi-objs += cts_firmware.o
+chipone-tddi-objs += cts_test.o
+chipone-tddi-objs += cts_charger_detect.o
+chipone-tddi-objs += cts_earjack_detect.o
+chipone-tddi-objs += cts_tcs.o
+chipone-tddi-objs += cts_platform.o
+chipone-tddi-objs += cts_tool.o
+chipone-tddi-objs += cts_sysfs.o
+chipone-tddi-objs += cts_strerror.o
+chipone-tddi-objs += cts_oem.o
+
+
+
+

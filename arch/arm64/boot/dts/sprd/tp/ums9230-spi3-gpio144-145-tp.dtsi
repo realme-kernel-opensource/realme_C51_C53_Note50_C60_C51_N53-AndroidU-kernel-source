@@ -1,0 +1,125 @@
+#include "../lcd/lcd_td4160_cw_mipi_hd.dtsi"
+#include "../lcd/lcd_td4160_cw_new_mipi_hd.dtsi"
+#include "../lcd/lcd_td4160_cw_old_mipi_hd.dtsi"
+#include "../lcd/lcd_td4160b_cw_boe_mipi_hd.dtsi"
+#include "../lcd/lcd_hx83108a_lce_mipi_hd.dtsi"
+#include "../lcd/lcd_hx83108a_boe_mipi_hd.dtsi"
+#include "../lcd/lcd_ft8057_ld_mipi_hd.dtsi"
+#include "../lcd/lcd_icnl9916c_hjc_cd_mipi_hd.dtsi"
+#include "../lcd/lcd_icnl9916c_ld_hjc_mipi_hd.dtsi"
+#include "../lcd/lcd_icnl9916c_inx_mipi_hd.dtsi"
+#include "../lcd/lcd_ft8057p_ld_mipi_hd.dtsi"
+&spi3 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	omnivision_tcm@0 {
+		compatible = "omnivision,tcm-spi","focaltech,fts-modules","himax,hxcommon","chipone-tddi";
+		reg = <0>;
+		spi-max-frequency = <9600000>;
+		panel = <&lcd_td4160_cw_old_mipi_hd &lcd_td4160_cw_new_mipi_hd &lcd_td4160_cw_mipi_hd &lcd_hx83108a_lce_mipi_hd
+				 &lcd_ft8057_ld_mipi_hd &lcd_icnl9916c_ld_hjc_mipi_hd &lcd_hx83108a_boe_mipi_hd &lcd_td4160b_cw_boe_mipi_hd
+				 &lcd_icnl9916c_inx_mipi_hd &lcd_icnl9916c_hjc_cd_mipi_hd
+				 &lcd_ft8057p_ld_mipi_hd>;
+
+		/* TD4160 */
+		omnivision,irq-gpio = <&ap_gpio 144 0x2008>; /* IRQF_ONESHOT | IRQF_TRIGGER_LOW */
+		omnivision,irq-on-state = <0>;
+		omnivision,reset-gpio = <&ap_gpio 146 GPIO_ACTIVE_HIGH>;
+		omnivision,reset-on-state = <0>;
+		omnivision,reset-active-ms = <20>;
+		omnivision,reset-delay-ms = <200>;
+		omnivision,power-delay-ms = <200>;
+		omnivision,spi-mode = <3>;
+		omnivision,byte-delay-us = <0>;
+		omnivision,block-delay-us = <0>;
+		omnivision,ubl-max-freq = <3000000>;
+		omnivision,ubl-byte-delay-us = <20>;
+		// omnivision,display-reset-gpio = <&msm_gpio 78 0>;
+		// interrupt-parent = <&ap_gpio>;
+		// interrupts = <144 0x2008>;
+		// vdd-supply = <&pm8994_lvs2>;
+		// avdd-supply = <&pm8994_l22>;
+		// pinctrl-names = "pmx_ts_active", "pmx_ts_suspend";
+		// pinctrl-0 = <&ts_active>;
+		// pinctrl-1 = <&ts_suspend>;
+		// omnivision,bus-reg-name = "vdd";
+		// omnivision,pwr-reg-name = "avdd";
+
+		/* HX83108a */
+		spi-cpha;
+		//interrupt-parent = <&tlmm>;
+		himax,panel-coords = <0 720 0 1600>;
+		himax,display-coords = <0 720 0 1600>;
+		himax,irq-gpio = <&ap_gpio 144 0x2008>;
+		himax,rst-gpio = <&ap_gpio 146 0x00>;
+		report_type = <1>;
+
+		/* ft8057 */
+		//interrupt-parent = <&msm_gpio>;
+		//interrupts = <13 0x2>;
+		focaltech,reset-gpio = <&ap_gpio 146 0x00>;
+		focaltech,irq-gpio = <&ap_gpio 144 0x2008>;
+		focaltech,max-touch-number = <10>;
+		focaltech,display-coords =  <0 0 719 1599>;
+
+		/* chipone icnl9916c device tree */
+		chipone,rst-gpio = <&ap_gpio 146 0x00>;
+		chipone,irq-gpio = <&ap_gpio 144 0x2008>;
+		chipone,x-res = <720>;
+		chipone,y-res = <1600>;
+
+		/*chipone charger detect*/
+		chipone,touch-charger-detect-enable;
+		chipone,touch-charger-detect-type = "notify"; /* notify,poll */
+		chipone,touch-charger-detect-psy-name = "charger";
+		chipone,touch-charger-detect-psp = "POWER_SUPPLY_PROP_ONLINE";
+		chipone,touch-charger-detect-psp-poll-interval = <1000>;
+
+		/* chipone earjack detect */
+		chipone,touch-earjack-detect-enable;
+		/* sprd: /sys/kernel/headsey/state */
+		chipone,touch-earjack-state-filepath = "/sys/bus/platform/drivers/Accdet_Driver/state";
+		chipone,touch-earjack-poll-interval = <1000>;
+
+		/* For Chipone TP ITO Test*/
+		chipone,test-reset-pin;
+		chipone,test-int-pin;
+		chipone,test-rawdata;
+		chipone,test-rawdata-frames = <1>;
+		chipone,rawdata-min         = <1100>; //base2000,+-40%
+		chipone,rawdata-max         = <2900>;
+		chipone,test-noise;
+		chipone,test-noise-frames	= <50>;
+		chipone,noise-max			= <120>;
+		chipone,test-open;
+		chipone,open-min			= <1600>;
+		chipone,test-short;
+		chipone,short-min			= <1600>;
+		chipone,test-compensate-cap;
+		chipone,compensate-cap-min	= <1>;
+		chipone,compensate-cap-max	= <127>;
+
+		/* gesture data test start */
+		chipone,test-gesture-rawdata;
+		chipone,test-gesture-rawdata-frames = <3>;
+		chipone,gesture-rawdata-min = <1800>;//base 2000
+		chipone,gesture-rawdata-max = <5400>;
+
+		chipone,test-gesture-lp-rawdata;
+		chipone,test-gesture-lp-rawdata-frames = <3>;
+		chipone,gesture-lp-rawdata-min = <1800>;
+		chipone,gesture-lp-rawdata-max = <5400>;
+
+		chipone,test-gesture-noise;
+		chipone,test-gesture-noise-frames = <3>;
+		chipone,gesture-noise-max = <120>;
+
+		chipone,test-gesture-lp-noise;
+		chipone,test-gesture-lp-noise-frames = <3>;
+		chipone,gesture-lp-noise-max = <120>;
+		/* gesture data test end */
+
+	};
+};

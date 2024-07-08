@@ -1,0 +1,14 @@
+/ {
+        fragment {
+                target-path = "/";
+                __overlay__ {
+
+                        fingerprint@0 {
+                                compatible = "jiiov,fingerprint";
+                                anc,gpio_rst = <&ap_gpio 131 0>;
+                                anc,gpio_irq = <&eic_async 29 0>;
+                        };
+                };
+        };
+};
+

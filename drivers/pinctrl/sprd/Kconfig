@@ -1,0 +1,77 @@
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Spreadtrum pin control drivers
+#
+
+config PINCTRL_SPRD
+	tristate
+	select PINMUX
+	select PINCONF
+	select GENERIC_PINCONF
+	select GENERIC_PINMUX_FUNCTIONS
+	help
+	  Say Y here to enable Spreadtrum pinctrl driver
+
+config PINCTRL_SPRD_SC9860
+	tristate "Spreadtrum SC9860 pinctrl driver"
+	depends on OF
+	depends on ARCH_SPRD || COMPILE_TEST
+	select PINCTRL_SPRD
+	help
+	  Say Y here to enable Spreadtrum SC9860 pinctrl driver
+
+config PINCTRL_SPRD_SHARKL3
+	tristate "Spreadtrum sharkl3 pinctrl driver"
+	depends on OF
+	depends on ARCH_SPRD || COMPILE_TEST
+	select PINCTRL_SPRD
+	help
+	  Say Y here to enable Spreadtrum sharkl3 pinctrl driver
+
+config PINCTRL_SPRD_SHARKL5PRO
+	tristate "Spreadtrum sharkl5pro pinctrl driver"
+	depends on OF
+	depends on ARCH_SPRD || COMPILE_TEST
+	select PINCTRL_SPRD
+	help
+	  Say Y here to enable Spreadtrum sharkl5pro pinctrl driver
+
+config PINCTRL_SPRD_PIKE2
+	tristate "Spreadtrum pike2 pinctrl driver"
+	depends on OF
+	depends on ARCH_SPRD || COMPILE_TEST
+	select PINCTRL_SPRD
+	help
+	  Say Y here to enable Spreadtrum pike2 pinctrl driver
+
+config PINCTRL_SPRD_SHARKLE
+	tristate "Spreadtrum sharkle pinctrl driver"
+	depends on OF
+	depends on ARCH_SPRD || COMPILE_TEST
+	select PINCTRL_SPRD
+	help
+	  Say Y here to enable Spreadtrum sharkle pinctrl driver
+
+config PINCTRL_SPRD_SHARKL5
+	tristate "Spreadtrum sharkl5 pinctrl driver"
+	depends on OF
+	depends on ARCH_SPRD || COMPILE_TEST
+	select PINCTRL_SPRD
+	help
+	  Say Y here to enable Spreadtrum sharkl5 pinctrl driver
+
+config PINCTRL_SPRD_QOGIRL6
+	tristate "Spreadtrum qogirl6 pinctrl driver"
+	depends on OF
+	depends on ARCH_SPRD || COMPILE_TEST
+	select PINCTRL_SPRD
+	help
+	  Say Y here to enable Spreadtrum qogirl6 pinctrl driver
+
+config PINCTRL_SPRD_QOGIRL6PRO
+	tristate "Spreadtrum qogirl6pro pinctrl driver"
+	depends on OF
+	depends on ARCH_SPRD || COMPILE_TEST
+	select PINCTRL_SPRD
+	help
+	  Say Y here to enable Spreadtrum qogirl6pro pinctrl driver
